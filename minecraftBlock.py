@@ -1,12 +1,14 @@
 import bpy
 
 blockRadius = 1
-halfRadius = blockRadius/2
 blockPosition = (0,0,blockRadius)
-textureFilePath = "C:\\users\\mike\\pictures\\businesses\\mikeitall\\minecraftBlockTexture2.jpg"
-textureFileDir = "C:\\users\\mike\\pictures\\businesses\\mikeitall\\"
+texture_map_image = "textureMapImage.jpg"
+textureFilePath = "C:\\imageFolder\\textureMapImage.jpg"
+textureFileDir = "C:\\imageFolder\\"
+material_name = "Block Material"
 
 def clearStage():
+    # Delete default Blender objects
     bpy.ops.object.select_all(action='TOGGLE')
     bpy.ops.object.select_all(action='TOGGLE')
     bpy.ops.object.delete()
@@ -26,31 +28,30 @@ def addMap():
     textureMap = bpy.ops.image.open(
         filepath= textureFilePath, 
         directory=textureFileDir, 
-        files=[{"name":"minecraftBlockTexture2.jpg", "name":"minecraftBlockTexture2.jpg"}], 
+        files=[{"name":texture_map_image, "name":texture_map_image}], 
         relative_path=True, show_multiview=False)
-    bpy.data.images["minecraftBlockTexture2.jpg"].use_fake_user = True
+    bpy.data.images[texture_map_image].use_fake_user = True
     bpy.ops.object.editmode_toggle()
     cube = bpy.context.selected_objects[0]
-    tx_image = bpy.data.images["minecraftBlockTexture2.jpg"]
+    tx_image = bpy.data.images[texture_map_image]
     for uv_face in cube.data.uv_textures.active.data:
         uv_face.image = tx_image
-    #bpy.ops.object.bake_image()
 
 def makeMaterial():
     # Cube Material
     cube = bpy.context.selected_objects[0]
-    bpy.data.materials[0].name = "Block Material"
-    cubeMaterial = bpy.data.materials.get("Block Material")
+    bpy.data.materials[0].name = material_name
+    cubeMaterial = bpy.data.materials.get(material_name)
     cube.data.materials.append(cubeMaterial)
-    cube.data.materials["Block Material"].diffuse_intensity = 1
-    cube.data.materials["Block Material"].specular_intensity = 0
+    cube.data.materials[material_name].diffuse_intensity = 1
+    cube.data.materials[material_name].specular_intensity = 0
     
 def makeTexture():    
     # Cube Texture
-    texture = bpy.data.materials["Block Material"].active_texture
+    texture = bpy.data.materials[material_name].active_texture
     bpy.data.textures["Tex"].type = 'IMAGE'
-    bpy.data.textures["Tex"].image = bpy.data.images["minecraftBlockTexture2.jpg"]
-    bpy.data.materials["Block Material"].texture_slots[0].texture_coords = 'UV'
+    bpy.data.textures["Tex"].image = bpy.data.images[texture_map_image]
+    bpy.data.materials[material_name].texture_slots[0].texture_coords = 'UV'
     
     
 clearStage()
