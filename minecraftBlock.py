@@ -1,10 +1,10 @@
 import bpy
 
-blockRadius = 1
-blockPosition = (0,0,blockRadius)
+block_radius = 1
+block_position = (0,0,block_radius)
 texture_map_image = "textureMapImage.jpg"
-textureFilePath = "C:\\imageFolder\\textureMapImage.jpg"
-textureFileDir = "C:\\imageFolder\\"
+texture_file_path = "C:\\imageFolder\\textureMapImage.jpg"
+texture_file_dir = "C:\\imageFolder\\"
 material_name = "Block Material"
 
 def clearStage():
@@ -25,9 +25,9 @@ def addCube(radius, pos):
     
 def addMap():    
     # Map Texture
-    textureMap = bpy.ops.image.open(
-        filepath= textureFilePath, 
-        directory=textureFileDir, 
+    bpy.ops.image.open(
+        filepath= texture_file_path, 
+        directory=texture_file_dir, 
         files=[{"name":texture_map_image, "name":texture_map_image}], 
         relative_path=True, show_multiview=False)
     bpy.data.images[texture_map_image].use_fake_user = True
@@ -41,8 +41,8 @@ def makeMaterial():
     # Cube Material
     cube = bpy.context.selected_objects[0]
     bpy.data.materials[0].name = material_name
-    cubeMaterial = bpy.data.materials.get(material_name)
-    cube.data.materials.append(cubeMaterial)
+    cube_material = bpy.data.materials.get(material_name)
+    cube.data.materials.append(cube_material)
     cube.data.materials[material_name].diffuse_intensity = 1
     cube.data.materials[material_name].specular_intensity = 0
     
@@ -55,7 +55,7 @@ def makeTexture():
     
     
 clearStage()
-addCube(blockRadius, blockPosition)
+addCube(block_radius, block_position)
 addMap()
 makeMaterial()
 makeTexture()
